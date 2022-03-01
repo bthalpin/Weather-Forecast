@@ -57,6 +57,7 @@ function currentWeather(data,location){
 
 
     // Current weather data
+    const currentCity = $('<h3>').text(location.toUpperCase())
     const currentTemp = $('<p>').text('Temp: ' + data.current.temp + ' °F')
     const currentWind = $('<p>').text('Wind: ' + data.current.wind_speed + ' MPH')
     const currentHumidity = $('<p>').text('Humidity: ' + data.current.humidity + '%')
@@ -81,7 +82,7 @@ function currentWeather(data,location){
 
     // Append the information to the card
     currentUVIEl.append(currentUVISpan)
-    currentWeatherInfo.append(location.toUpperCase(),currentDate,currentWeatherIcon,currentDescription,currentTemp,currentWind,currentHumidity,currentUVIEl)
+    currentWeatherInfo.append(currentCity,currentDate,currentWeatherIcon,currentDescription,currentTemp,currentWind,currentHumidity,currentUVIEl)
     currentWeatherCard.append(currentWeatherInfo)
     currentWeatherEl.append(currentWeatherCard)
 }
@@ -206,7 +207,7 @@ function loadSavedLocations(){
     // Creates links for saved locations with newer entries on top
     for (let i=savedLocations.length-1;i>=0;i--){
         console.log(savedLocations[i])
-        savedLocationsEl.append($('<div class="text-center text-wrap p-1 m-1 saved rounded"></div>').text(savedLocations[i]).on('click',function(){
+        savedLocationsEl.append($('<div class="text-center text-wrap p-1 my-1 saved rounded"></div>').text(savedLocations[i]).on('click',function(){
             getCoords(savedLocations[i])
         }))
 
