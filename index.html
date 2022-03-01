@@ -9,36 +9,53 @@
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
+
     <header>
+
+        <!-- Title -->
         <nav class="navbar text-white">
             <h1 class="text-center w-100 ">Weather</h1>
         </nav>
     </header>
-    
+
+        <!-- Main container -->
         <main class="row">
+
+            <!-- Search area -->
             <section class="col-12 col-md-3 my-2 search-container">
                 <section class="row">
                     <section class="col-12">
+
                         <form class="weather-location my-2">
                             <input type="text" id="location" maxlength="50">
                             <button type="submit" class="btn submit py-1">Submit</button>
                         </form>
+
+                        <!-- Saved locations will be added here -->
                         <section class="saved-locations"></section>
+                        
                     </section>
                 </section>
             </section>
+
+            <!-- Weather container -->
             <section class="col-12 col-md-9 my-1 weather-container">
                 <section class="row">
                     <section class="col-12">
+
+                        <!-- Current weather container -->
                         <section class="row inner-row current-weather">
                             <section class="col-12"></section>
                         </section>
+
+                        <!-- Future weather container -->
                         <section class="row inner-row future-weather d-flex justify-content-between">
-                            <!-- <img src="http://openweathermap.org/img/wn/10d@2x.png"> -->
                         </section>
+
                     </section>
                 </section>
             </section>
+
         </main>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

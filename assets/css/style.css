@@ -1,16 +1,22 @@
+/* Saved colors */
 :root {
     --shadow-color:rgb(45, 119, 230);
     --main-background:rgb(123, 176, 255);
 }
+
+
 *{
     margin:auto;
     padding:0;
     box-sizing: border-box;
-    
 }
+
+/* Background color for page */
 body{
     background-color: var(--main-background);
 }
+
+/* Styling for header */
 .navbar{
     height: 80px;
     max-width:100vw;
@@ -19,24 +25,22 @@ body{
     box-shadow: 0.5rem 0.5rem 0.5rem var(--shadow-color);
 }
 
+/* Main container width */
 main{
     max-width:1500px;
 }
+
+/* Background size for saved locations */
 .weather-location{
     width:fit-content;
 }
 
+/* Centers row on page */
 .row{
     margin:auto;
-    
 }
 
-.card{
-    box-shadow: 0.5rem 0.5rem 1rem var(--shadow-color);
-    background-color: rgb(199, 224, 241);
-    border:3px solid rgb(25, 85, 175);
-}
-
+/* Button and saved location styling */
 .submit,.saved{
     background-color: rgb(29, 81, 253);
     color:rgb(216, 225, 253);    
@@ -52,11 +56,13 @@ main{
     transform: scale(1.05);
 }
 
+/* Styling for card containers holding weather data */
+.card{
+    box-shadow: 0.5rem 0.5rem 1rem var(--shadow-color);
+    background-color: rgb(199, 224, 241);
+    border:3px solid rgb(25, 85, 175);
+}
+
 p{
     margin:0;
 }
-
-
-/* .future-weather{
-    
-} */
