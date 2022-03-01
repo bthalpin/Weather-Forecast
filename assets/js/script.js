@@ -92,7 +92,7 @@ function currentWeather(data,location){
 }
 
 function futureWeather(data) {
-    for (let i=0;i<5;i++) {
+    for (let i=1;i<6;i++) {
 
         // Main card for each day
         let dailyWeatherCard = $('<div>')
@@ -102,14 +102,14 @@ function futureWeather(data) {
         const dailyTemp = $('<p>').text('Temp: ' + data.daily[i].temp.day + ' °F')
         const dailyWind = $('<p>').text('Wind: ' + data.daily[i].wind_speed + ' MPH')
         const dailyHumidity = $('<p>').text('Humidity: ' + data.daily[i].humidity + '%')
-        const date =  $('<p>').text(moment.unix(data.daily[i].dt).format('MM/D/YY'))
+        const date =  $('<h4>').text(moment.unix(data.daily[i].dt).format('MM/D/YY'))
 
         // Weather picture
         const icon = $('<img>').attr('src','https://openweathermap.org/img/wn/'+(data.daily[i].weather[0].icon)+'@2x.png');
 
         dailyWeatherCard.addClass('card col-12 col-sm-5 col-md-4 col-xl-2' )
         dailyWeatherInfo.addClass('card-body '+JSON.stringify(i))
-        dailyWeatherCard.attr('style',' height:300px;')
+        dailyWeatherCard.attr('style',' height:300px; min-width:190px;')
 
         // Append the information to the card for each day
         dailyWeatherInfo.append(date,icon,dailyTemp,dailyWind,dailyHumidity)
@@ -157,31 +157,42 @@ function cleanUpLocation(location) {
         if (stateAbbr.includes(state)){
             state = states[state]
         }
-        location = city + ',' + state
+        location = city + ', ' + state
     }
     else{
         location = location.trim()
     }
-
+    console.log(location)
     // If numbers entered
     if (['0','1','2','3','4','5','6','7','8','9'].includes(location[0])){
-        getCoords(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${API}`)
+        getCoords(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${API}`,location)
     } else {
-        getCoords(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${API}`)
+        getCoords(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${API}`,location)
     }
 }
 
 
-function getCoords(url){
+function getCoords(url,location){
+    console.log(location)
     fetch(url)
     .then(res=>{
         return res.json()
         })
     .then(data=>{
-        if (data.length && data.cod!=='404'){
-            lon = data[0].lon
-            lat = data[0].lat
-            getWeather(data[0].name)
+        if (data.cod!=='404' && (data[0]||data.lon)){
+            console.log(data)
+            if (data[0]){
+                
+                lon = data[0].lon
+                lat = data[0].lat
+                getWeather(location)
+            }
+            else{
+                lon = data.lon
+                lat = data.lat
+                getWeather(data.name)
+            }
+
         }
         else {
             locationInput.val('')
@@ -214,6 +225,7 @@ function loadSavedLocations(){
 // Saves 10 unique locations to storage
 function saveLocation(location){
     location = location.toUpperCase()
+    console.log(location)
 
     if (!savedLocations.includes(location)){
         if (savedLocations.length>=10){

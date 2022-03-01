@@ -49,6 +49,7 @@ main{
 .saved{
     cursor: pointer;
     max-width: 300px;
+    border:2px solid rgb(8, 44, 97);
 }
 .saved:hover,.submit:hover{
     background-color: rgb(57, 103, 253);
@@ -63,6 +64,14 @@ main{
     border:3px solid rgb(25, 85, 175);
 }
 
-p{
+.current-weather .card-body{
     margin:0;
+    padding:1rem 2rem;
+}
+.current-weather p {
+    margin:0;
+}
+.future-weather p,.future-weather h4{
+    margin:0;
+    text-align: center;
 }
