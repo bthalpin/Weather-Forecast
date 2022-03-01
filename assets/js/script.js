@@ -81,7 +81,7 @@ function currentWeather(data,location){
     currentUVISpan.attr('style','background-color:'+colorCode+'; border-radius:5px; padding:2px 4px; color:white;')
 
     // Weather picture
-    currentWeatherIcon.attr('src','http://openweathermap.org/img/wn/'+(data.current.weather[0].icon)+'@2x.png');
+    currentWeatherIcon.attr('src','https://openweathermap.org/img/wn/'+(data.current.weather[0].icon)+'@2x.png');
     currentWeatherCard.attr('style','height:90%; width:100%;')
 
     // Append the information to the card
@@ -105,7 +105,7 @@ function futureWeather(data) {
         const date =  $('<p>').text(moment.unix(data.daily[i].dt).format('MM/D/YY'))
 
         // Weather picture
-        const icon = $('<img>').attr('src','http://openweathermap.org/img/wn/'+(data.daily[i].weather[0].icon)+'@2x.png');
+        const icon = $('<img>').attr('src','https://openweathermap.org/img/wn/'+(data.daily[i].weather[0].icon)+'@2x.png');
 
         dailyWeatherCard.addClass('card col-12 col-sm-5 col-md-4 col-xl-2' )
         dailyWeatherInfo.addClass('card-body '+JSON.stringify(i))
@@ -165,9 +165,9 @@ function cleanUpLocation(location) {
 
     // If numbers entered
     if (['0','1','2','3','4','5','6','7','8','9'].includes(location[0])){
-        getCoords(`http://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${API}`)
+        getCoords(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${API}`)
     } else {
-        getCoords(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${API}`)
+        getCoords(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${API}`)
     }
 }
 
