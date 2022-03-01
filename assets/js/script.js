@@ -3,7 +3,6 @@ let lon
 let lat 
 // let weatherData = {current:{temp:''}};
 const weatherCard = $('.1')
-const searchEl = $('.search-container')
 const weatherEl = $('.weather-container')
 const futureWeatherEl = $('.future-weather')
 const currentWeatherEl = $('.current-weather')
@@ -65,6 +64,8 @@ function currentWeather(data,location){
     const currentWeatherIcon = $('<img>')
     const currentDescription = $('<p>').text('Weather: ' + data.current.weather[0].description.toUpperCase() )
     const currentUVI = data.current.uvi
+
+    // Color for UVIndex
     if (currentUVI<3){
         colorCode = 'green'
     }else if (currentUVI<6){
@@ -74,9 +75,12 @@ function currentWeather(data,location){
     }else{
         colorCode = 'red'
     }
+
     const currentUVIEl = $('<p>').text('UV Index: ')
     const currentUVISpan = $('<span>').text(currentUVI)
     currentUVISpan.attr('style','background-color:'+colorCode+'; border-radius:5px; padding:2px 4px; color:white;')
+
+    // Weather picture
     currentWeatherIcon.attr('src','http://openweathermap.org/img/wn/'+(data.current.weather[0].icon)+'@2x.png');
     currentWeatherCard.attr('style','height:90%; width:100%;')
 
@@ -99,6 +103,8 @@ function futureWeather(data) {
         const dailyWind = $('<p>').text('Wind: ' + data.daily[i].wind_speed + ' MPH')
         const dailyHumidity = $('<p>').text('Humidity: ' + data.daily[i].humidity + '%')
         const date =  $('<p>').text(moment.unix(data.daily[i].dt).format('MM/D/YY'))
+
+        // Weather picture
         const icon = $('<img>').attr('src','http://openweathermap.org/img/wn/'+(data.daily[i].weather[0].icon)+'@2x.png');
 
         dailyWeatherCard.addClass('card col-12 col-sm-5 col-md-4 col-xl-2' )
@@ -112,6 +118,7 @@ function futureWeather(data) {
     }
 }
 
+// Clears screen and updates the weather info for new location
 function updateData(data,location){
     if (currentWeatherEl.children){
         currentWeatherEl.empty()
@@ -119,7 +126,6 @@ function updateData(data,location){
     if (futureWeatherEl.children){
         futureWeatherEl.empty()
     }
-    console.log(data)
     currentWeather(data,location)
     futureWeather(data)
 }
@@ -127,18 +133,20 @@ function updateData(data,location){
 
 // Api call for weather data once location information is received
 function getWeather(location){
+    
     saveLocation(location)
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${API}&units=imperial`)
     .then(res=>res.json())
     .then(data=>{
-        console.log(data)
         updateData(data,location)
     })
     .catch(err=>console.log(err))
 }
 
-function getCoords(location){
-    console.log(location,'prob')
+function cleanUpLocation(location) {
+    locationInput.val('')
+    locationInput.attr('placeholder','Enter a City')
+    
     // If state provided
     if (location.includes(',')){
         location = location.split(',')
@@ -154,61 +162,51 @@ function getCoords(location){
     else{
         location = location.trim()
     }
-    
-    console.log('prefetch',location)
-    // Api call to get longitude and latitude to receive more weather data from onecall(The getWeather fetch)
-    // fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API}&units=imperial`)
-    if (['0'].includes(location[0])){
-        fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${API}`)
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data,'location data',data.name)
-            // if (data.cod===200){
-                lon = data.lon
-                lat = data.lat
-                getWeather(data.name)
-            // }
-            // else {
-            //     alert(data.message)
-            // }
-        })
-        .catch(err=>console.log(err))
-    }else{
-        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${API}`)
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data,'location data')
-            // if (data.cod===200){
-                lon = data[0].lon
-                lat = data[0].lat
-                getWeather(location)
-            // }
-            // else {
-            //     alert(data.message)
-            // }
-        })
-        .catch(err=>console.log(err))
+
+    // If numbers entered
+    if (['0','1','2','3','4','5','6','7','8','9'].includes(location[0])){
+        getCoords(`http://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${API}`)
+    } else {
+        getCoords(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${API}`)
     }
-    
-    
 }
 
 
+function getCoords(url){
+    fetch(url)
+    .then(res=>{
+        return res.json()
+        })
+    .then(data=>{
+        if (data.length && data.cod!=='404'){
+            lon = data[0].lon
+            lat = data[0].lat
+            getWeather(data[0].name)
+        }
+        else {
+            locationInput.val('')
+            locationInput.attr('placeholder','Invalid location')
+            return
+        }
+    })
+    .catch(err=>console.log(err))   
+    
+}
+
+// Clears and loads saved locations
 function loadSavedLocations(){
     if (savedLocationsEl.children) {
         savedLocationsEl.empty()
     }
     savedLocations = JSON.parse(localStorage.getItem('savedLocations'))
-    console.log(savedLocations)
     if (!savedLocations){
         savedLocations = []
     }
 
     // Creates links for saved locations with newer entries on top
     for (let i=savedLocations.length-1;i>=0;i--){
-        console.log(savedLocations[i])
         savedLocationsEl.append($('<div class="text-center text-wrap p-1 my-1 saved rounded"></div>').text(savedLocations[i]).on('click',function(){
-            getCoords(savedLocations[i])
+            cleanUpLocation(savedLocations[i])
         }))
 
     }
@@ -233,8 +231,8 @@ function handleSubmit(event){
     if (!locationInput.val()){
         return
     }
-    getCoords(locationInput.val())
-    locationInput.val('')
+    cleanUpLocation(locationInput.val())
+    // locationInput.val('')
     // saveLocation(locationInput.val().split(','))
 }
 
