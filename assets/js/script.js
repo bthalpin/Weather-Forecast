@@ -52,7 +52,7 @@ function currentWeather(data,location){
     // Main card for current weather
     const currentWeatherCard = $('<div>')
     const currentWeatherInfo = $('<div>')
-    currentWeatherCard.addClass('card bg-light')
+    currentWeatherCard.addClass('card')
     currentWeatherInfo.addClass('card-body')
 
 
@@ -73,12 +73,14 @@ function currentWeather(data,location){
     }else{
         colorCode = 'red'
     }
-    const currentUVIEl = $('<p>').text('UV Index: '+currentUVI)
-    currentUVIEl.attr('style','background-color:'+colorCode+';')
+    const currentUVIEl = $('<p>').text('UV Index: ')
+    const currentUVISpan = $('<span>').text(currentUVI)
+    currentUVISpan.attr('style','background-color:'+colorCode+'; border-radius:5px; padding:2px 4px; color:white;')
     currentWeatherIcon.attr('src','http://openweathermap.org/img/wn/'+(data.current.weather[0].icon)+'@2x.png');
     currentWeatherCard.attr('style','height:90%; width:100%;')
 
     // Append the information to the card
+    currentUVIEl.append(currentUVISpan)
     currentWeatherInfo.append(location.toUpperCase(),currentDate,currentWeatherIcon,currentDescription,currentTemp,currentWind,currentHumidity,currentUVIEl)
     currentWeatherCard.append(currentWeatherInfo)
     currentWeatherEl.append(currentWeatherCard)
@@ -98,7 +100,7 @@ function futureWeather(data) {
         const date =  $('<p>').text(moment.unix(data.daily[i].dt).format('MM/D/YY'))
         const icon = $('<img>').attr('src','http://openweathermap.org/img/wn/'+(data.daily[i].weather[0].icon)+'@2x.png');
 
-        dailyWeatherCard.addClass('card col-12 col-md-5 col-lg-2 m-1' )
+        dailyWeatherCard.addClass('card col-12 col-sm-5 col-md-4 col-xl-2' )
         dailyWeatherInfo.addClass('card-body '+JSON.stringify(i))
         dailyWeatherCard.attr('style',' height:300px;')
 
@@ -124,6 +126,7 @@ function updateData(data,location){
 
 // Api call for weather data once location information is received
 function getWeather(location){
+    saveLocation(location)
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${API}&units=imperial`)
     .then(res=>res.json())
     .then(data=>{
@@ -150,22 +153,43 @@ function getCoords(location){
     else{
         location = location.trim()
     }
-    saveLocation(location)
+    
+    console.log('prefetch',location)
     // Api call to get longitude and latitude to receive more weather data from onecall(The getWeather fetch)
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API}&units=imperial`)
-    .then(res=>res.json())
-    .then(data=>{
-        console.log(data)
-        if (data.cod===200){
-            lon = data.coord.lon
-            lat = data.coord.lat
-            getWeather(location)
-        }
-        else {
-            alert(data.message)
-        }
-    })
-    .catch(err=>console.log(err))
+    // fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API}&units=imperial`)
+    if (['0'].includes(location[0])){
+        fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${API}`)
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data,'location data',data.name)
+            // if (data.cod===200){
+                lon = data.lon
+                lat = data.lat
+                getWeather(data.name)
+            // }
+            // else {
+            //     alert(data.message)
+            // }
+        })
+        .catch(err=>console.log(err))
+    }else{
+        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${API}`)
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data,'location data')
+            // if (data.cod===200){
+                lon = data[0].lon
+                lat = data[0].lat
+                getWeather(location)
+            // }
+            // else {
+            //     alert(data.message)
+            // }
+        })
+        .catch(err=>console.log(err))
+    }
+    
+    
 }
 
 
@@ -182,7 +206,7 @@ function loadSavedLocations(){
     // Creates links for saved locations with newer entries on top
     for (let i=savedLocations.length-1;i>=0;i--){
         console.log(savedLocations[i])
-        savedLocationsEl.append($('<div class="bg-light text-center p-1 m-1"></div>').text(savedLocations[i]).on('click',function(){
+        savedLocationsEl.append($('<div class="text-center text-wrap p-1 m-1 saved rounded"></div>').text(savedLocations[i]).on('click',function(){
             getCoords(savedLocations[i])
         }))
 
