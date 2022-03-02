@@ -56,7 +56,7 @@ function currentWeather(data,location){
 
 
     // Current weather data
-    const currentCity = $('<h3>').text(location.toUpperCase())
+    
     const currentTemp = $('<p>').text('Temp: ' + data.current.temp + ' °F')
     const currentWind = $('<p>').text('Wind: ' + data.current.wind_speed + ' MPH')
     const currentHumidity = $('<p>').text('Humidity: ' + data.current.humidity + '%')
@@ -64,6 +64,9 @@ function currentWeather(data,location){
     const currentWeatherIcon = $('<img>')
     const currentDescription = $('<p>').text('Weather: ' + data.current.weather[0].description.toUpperCase() )
     const currentUVI = data.current.uvi
+
+    // Displays only the city name
+    const currentCity = $('<h3>').text(location.toUpperCase().split(',')[0])
 
     // Color for UVIndex
     if (currentUVI<3){
@@ -107,9 +110,9 @@ function futureWeather(data) {
         // Weather picture
         const icon = $('<img>').attr('src','https://openweathermap.org/img/wn/'+(data.daily[i].weather[0].icon)+'@2x.png');
 
-        dailyWeatherCard.addClass('card col-12 col-sm-5 col-md-4 col-xl-2' )
+        dailyWeatherCard.addClass('card col-12 col-sm-6 col-md-3 col-xl-2' )
         dailyWeatherInfo.addClass('card-body '+JSON.stringify(i))
-        dailyWeatherCard.attr('style',' height:300px; min-width:190px;')
+        dailyWeatherCard.attr('style',' height:300px;')
 
         // Append the information to the card for each day
         dailyWeatherInfo.append(date,icon,dailyTemp,dailyWind,dailyHumidity)
@@ -162,7 +165,7 @@ function cleanUpLocation(location) {
     else{
         location = location.trim()
     }
-    console.log(location)
+
     // If numbers entered
     if (['0','1','2','3','4','5','6','7','8','9'].includes(location[0])){
         getCoords(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${API}`,location)
@@ -180,13 +183,15 @@ function getCoords(url,location){
         })
     .then(data=>{
         if (data.cod!=='404' && (data[0]||data.lon)){
-            console.log(data)
+            
+            // Array returned if fetched using city
             if (data[0]){
-                
                 lon = data[0].lon
                 lat = data[0].lat
                 getWeather(location)
             }
+
+            // Object returned using zip code
             else{
                 lon = data.lon
                 lat = data.lat
@@ -196,7 +201,7 @@ function getCoords(url,location){
         }
         else {
             locationInput.val('')
-            locationInput.attr('placeholder','Invalid location')
+            locationInput.attr('placeholder','Enter a Valid Location')
             return
         }
     })
