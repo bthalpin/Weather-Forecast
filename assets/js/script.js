@@ -60,7 +60,7 @@ function currentWeather(data,location){
     const currentTemp = $('<p>').text('Temp: ' + data.current.temp + ' °F')
     const currentWind = $('<p>').text('Wind: ' + data.current.wind_speed + ' MPH')
     const currentHumidity = $('<p>').text('Humidity: ' + data.current.humidity + '%')
-    const currentDate =  $('<p>').text(moment().format('MM/D/YY'))
+    const currentDate =  $('<h5>').text(moment().format('MM/D/YY'))
     const currentWeatherIcon = $('<img>')
     const currentDescription = $('<p>').text('Weather: ' + data.current.weather[0].description.toUpperCase() )
     const currentUVI = data.current.uvi
@@ -112,7 +112,7 @@ function futureWeather(data) {
 
         dailyWeatherCard.addClass('card col-12 col-sm-6 col-md-3 col-xl-2' )
         dailyWeatherInfo.addClass('card-body '+JSON.stringify(i))
-        dailyWeatherCard.attr('style',' height:300px;')
+        // dailyWeatherCard.attr('style',' height:300px;')
 
         // Append the information to the card for each day
         dailyWeatherInfo.append(date,icon,dailyTemp,dailyWind,dailyHumidity)
@@ -176,7 +176,6 @@ function cleanUpLocation(location) {
 
 
 function getCoords(url,location){
-    console.log(location)
     fetch(url)
     .then(res=>{
         return res.json()
@@ -230,7 +229,6 @@ function loadSavedLocations(){
 // Saves 10 unique locations to storage
 function saveLocation(location){
     location = location.toUpperCase()
-    console.log(location)
 
     if (!savedLocations.includes(location)){
         if (savedLocations.length>=10){

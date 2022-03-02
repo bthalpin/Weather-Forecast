@@ -70,7 +70,7 @@ main{
     padding:1rem 2rem;
 }
 
-.current-weather p {
+.current-weather p,.current-weather h5{
     margin:0;
 }
 
