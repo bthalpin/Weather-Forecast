@@ -95,6 +95,8 @@ function currentWeather(data,location){
 }
 
 function futureWeather(data) {
+    const futureWeatherTitle = $('<h2>').text('5 Day Forecast:')
+    futureWeatherEl.append(futureWeatherTitle)
     for (let i=1;i<6;i++) {
 
         // Main card for each day
