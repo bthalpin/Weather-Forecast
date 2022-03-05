@@ -12,3 +12,9 @@ The following image shows the layout of the weather app:
 The folowing image shows the mobile layout:
 
 ![Weather app layout vertically](./assets/images/mobile-page.png)
+
+## License 
+
+Copyright 2022 [Brian Halpin](mailto:brian.t.halpin@gmail.com)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
