@@ -107,7 +107,7 @@ function currentWeather(data,location){
     // }
     if(['Clear','Clouds','Haze','Mist','Rain','Snow'].includes(currentWeather)){
 
-        mainBackground.attr('style',`background-image:url(../assets/images/${currentWeather}.jpg)`)
+        mainBackground.attr('style',`background-image:url(./assets/images/${currentWeather}.jpg)`)
     } else {
         mainBackground.attr('style','background-color:rgb(123, 176, 255)');
 
