@@ -2,6 +2,7 @@ const API = '8b792d8469d79e6095dc88e95785615c'
 let lon 
 let lat 
 // let weatherData = {current:{temp:''}};
+const mainBackground = $('body');
 const weatherCard = $('.1')
 const weatherEl = $('.weather-container')
 const futureWeatherEl = $('.future-weather')
@@ -84,9 +85,36 @@ function currentWeather(data,location){
     currentUVISpan.attr('style','background-color:'+colorCode+'; border-radius:5px; padding:2px 4px; color:white;')
 
     // Weather picture
+    console.log('Current weather',data.current.weather[0].main)
     currentWeatherIcon.attr('src','https://openweathermap.org/img/wn/'+(data.current.weather[0].icon)+'@2x.png');
     currentWeatherCard.attr('style','height:90%; width:100%;')
+    const currentWeather = data.current.weather[0].main
+    // if (currentWeather==='Rain'){
+    //     mainBackground.attr('style','background-image:url(../assets/images/rain.jpg)')
+    // } else if (currentWeather==='Clouds'){
+    //     mainBackground.attr('style','background-image:url(../assets/images/clouds.jpg)')
 
+    // } else if (currentWeather==='Clear'){
+    //     mainBackground.attr('style','background-image:url(../assets/images/sunny.jpg)')
+
+    // } else if (currentWeather==='Snow'){
+    //     mainBackground.attr('style','background-image:url(../assets/images/snow.jpg)')
+
+    // }  else if (currentWeather==='Haze'){
+    //     mainBackground.attr('style','background-image:url(../assets/images/haze.jpg)')
+
+    // } else {
+    //     mainBackground.attr('style','background-color:rgb(123, 176, 255)');
+    // }
+    if(['Clear','Clouds','Haze','Mist','Rain','Snow'].includes(currentWeather)){
+
+        mainBackground.attr('style',`background-image:url(../assets/images/${currentWeather}.jpg)`)
+    } else {
+        mainBackground.attr('style','background-color:rgb(123, 176, 255)');
+
+    }
+
+    
     // Append the information to the card
     currentUVIEl.append(currentUVISpan)
     currentWeatherInfo.append(currentCity,currentDate,currentWeatherIcon,currentDescription,currentTemp,currentWind,currentHumidity,currentUVIEl)
