@@ -80,6 +80,8 @@ function currentWeather(data,location){
         colorCode = 'red'
     }
 
+    console.log(data.current)
+
     const currentUVIEl = $('<p>').text('UV Index: ')
     const currentUVISpan = $('<span>').text(currentUVI)
     currentUVISpan.attr('style','background-color:'+colorCode+'; border-radius:5px; padding:2px 4px; color:white;')
@@ -123,6 +125,7 @@ function currentWeather(data,location){
 
 function futureWeather(data) {
     const futureWeatherTitle = $('<h2>').text('5 Day Forecast:')
+    futureWeatherTitle.attr('style','background: linear-gradient(to top,rgb(39, 72, 178),rgb(85, 124, 252));padding:1rem;color:white;margin:0;border-radius:0.3rem;')
     futureWeatherEl.append(futureWeatherTitle)
     for (let i=1;i<6;i++) {
 
