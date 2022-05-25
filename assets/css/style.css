@@ -26,7 +26,7 @@ body{
     max-width:100vw;
     margin:0;
     background: linear-gradient(to top,rgb(39, 72, 178),rgb(85, 124, 252));
-    box-shadow: 0.5rem 0.5rem 0.5rem var(--shadow-color);
+    /* box-shadow: 0.5rem 0.5rem 0.5rem var(--shadow-color); */
 }
 
 /* Main container width */
@@ -36,8 +36,10 @@ main{
 
 /* Background size for saved locations */
 .weather-location{
-    width:fit-content;
+    /* width:fit-content; */
     display:flex;
+    max-width: 100%;
+    /* max-width: 20vw; */
 }
 
 /* Centers row on page */
@@ -67,12 +69,13 @@ main{
     color:rgb(216, 225, 253);    
     transition: all 0.2s ease-in-out;
     margin:0.3rem;
+    border:2px solid rgb(8, 44, 97);
+
 
 }
 .saved{
     cursor: pointer;
     max-width: 300px;
-    border:2px solid rgb(8, 44, 97);
 }
 .saved:hover,.submit:hover{
     background-color: rgb(57, 103, 253);
@@ -100,4 +103,21 @@ main{
 .future-weather p,.future-weather h4{
     margin:0;
     text-align: center;
+}
+
+@media screen and (max-width:960px) {
+    .weather-location{
+        /* width:10vw; */
+        margin:0.5rem 0;
+    }
+    
+}
+@media screen and (max-width:370px) {
+    .weather-location{
+        display:block;
+        margin:0.5rem 0rem !important;
+    }
+    .locationInput{
+        width:100%;
+    }
 }
