@@ -85,7 +85,6 @@ function currentWeather(data,location){
     currentUVISpan.attr('style','background-color:'+colorCode+'; border-radius:5px; padding:2px 4px; color:white;')
 
     // Weather picture
-    console.log('Current weather',data.current.weather[0].main)
     currentWeatherIcon.attr('src','https://openweathermap.org/img/wn/'+(data.current.weather[0].icon)+'@2x.png');
     currentWeatherCard.attr('style','height:90%; width:100%;')
     const currentWeather = data.current.weather[0].main
