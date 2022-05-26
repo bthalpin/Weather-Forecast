@@ -37,8 +37,9 @@ main{
 
 /* Background size for saved locations */
 .weather-location{
-    /* width:fit-content; */
+    width:fit-content;
     display:flex;
+    margin:auto;
     max-width: 100%;
     /* max-width: 20vw; */
 }
@@ -65,6 +66,10 @@ main{
     margin:0.3rem;
 }
 /* Button and saved location styling */
+.saved-locations{
+    width: fit-content;
+    min-width: 300px;
+}
 .submit,.saved{
     background-color: rgb(63, 104, 240);
     color:rgb(216, 225, 253);    
@@ -77,6 +82,7 @@ main{
 .saved{
     cursor: pointer;
     max-width: 300px;
+    margin:0.2rem;
 }
 .saved:hover,.submit:hover{
     background-color: rgb(57, 103, 253);
@@ -109,16 +115,24 @@ main{
 @media screen and (max-width:960px) {
     .weather-location{
         /* width:10vw; */
-        margin:0.5rem 0;
+        /* margin:0.5rem 0; */
     }
     
 }
 @media screen and (max-width:370px) {
     .weather-location{
-        display:block;
-        margin:0.5rem 0rem !important;
+        /* display:block;
+        margin:0.5rem 0rem !important; */
+        flex-wrap: wrap;
+        justify-content: flex-end;
     }
     .locationInput{
         width:100%;
+    }
+    .saved-locations{
+        min-width: 100%;
+    }
+    .saved{
+        margin:auto;
     }
 }
