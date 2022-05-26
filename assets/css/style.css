@@ -14,9 +14,10 @@
 /* Background color for page */
 body{
     background-color: var(--main-background);
-    background-position: fixed;
+    background-position:top;
+    background-attachment: fixed;
     background-size: cover;
-    min-height:100vh;
+    min-height: 100vh;
 
 }
 
