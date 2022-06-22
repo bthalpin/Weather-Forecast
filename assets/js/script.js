@@ -80,7 +80,6 @@ function currentWeather(data,location){
         colorCode = 'red'
     }
 
-    console.log(data.current)
 
     const currentUVIEl = $('<p>').text('UV Index: ')
     const currentUVISpan = $('<span>').text(currentUVI)
@@ -107,7 +106,7 @@ function currentWeather(data,location){
     // } else {
     //     mainBackground.attr('style','background-color:rgb(123, 176, 255)');
     // }
-    if(['Clear','Clouds','Haze','Mist','Rain','Snow','THUNDERSTORM'].includes(currentWeather)){
+    if(['Clear','Clouds','Haze','Mist','Rain','Snow','Thunderstorm'].includes(currentWeather)){
 
         mainBackground.attr('style',`background-image:url(assets/images/${currentWeather}.jpg);background-position:fixed;`)
     } else {
