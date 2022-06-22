@@ -107,7 +107,7 @@ function currentWeather(data,location){
     // } else {
     //     mainBackground.attr('style','background-color:rgb(123, 176, 255)');
     // }
-    if(['Clear','Clouds','Haze','Mist','Rain','Snow'].includes(currentWeather)){
+    if(['Clear','Clouds','Haze','Mist','Rain','Snow','THUNDERSTORM'].includes(currentWeather)){
 
         mainBackground.attr('style',`background-image:url(assets/images/${currentWeather}.jpg);background-position:fixed;`)
     } else {
