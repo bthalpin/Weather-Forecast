@@ -203,18 +203,24 @@ function cleanUpLocation(location) {
 
     // If numbers entered
     if (['0','1','2','3','4','5','6','7','8','9'].includes(location[0])){
-        getCoords(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${GEO_LOCATION_API}`,location)
+        getAPIKey(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${GEO_LOCATION_API}`,location)
     } else {
-        getCoords(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${GEO_LOCATION_API}`,location)
+        getAPIKey(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${GEO_LOCATION_API}`,location)
     }
 }
 
 function getAPIKey(url, location) {
+
+    if (GEO_LOCATION_API) {
+        console.log('ALREADY HAVE KEY')
+        return getCoords(url, location)
+    }
+    
     // Fetch api key
     fetch('https://charity-raffle.herokuapp.com/api/weather-key')
     .then(res => res.json())
     .then(data => {
-
+        console.log(data, 'GETTING API KEY')
         // If valid key, fetch coordinates
         if (data !== "UNAUTHORIZED") {
             GEO_LOCATION_API = data;
