@@ -1,6 +1,6 @@
-const GEO_LOCATION_API = '8b792d8469d79e6095dc88e95785615c'
 let lon 
 let lat 
+let GEO_LOCATION_API
 
 const mainBackground = $('body');
 const weatherCard = $('.1')
@@ -209,8 +209,23 @@ function cleanUpLocation(location) {
     }
 }
 
+function getAPIKey(url, location) {
+    // Fetch api key
+    fetch('https://charity-raffle.herokuapp.com/api/weather-key')
+    .then(res => res.json())
+    .then(data => {
 
-function getCoords(url,location){
+        // If valid key, fetch coordinates
+        if (data !== "UNAUTHORIZED") {
+            GEO_LOCATION_API = data;
+
+            getCoords(url, location)
+        }
+    })
+    .catch(err => console.log(err))
+}
+
+function getCoords(url, location){
     fetch(url)
     .then(res=>{
         return res.json()
