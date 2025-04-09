@@ -215,7 +215,7 @@ function getAPIKey(location) {
     fetch('https://charity-raffle.herokuapp.com/api/weather-key')
     .then(res => res.json())
     .then(data => {
-        console.log(data, 'GETTING API KEY')
+        console.log(data, 'GETTING API KEY, new')
         // If valid key, fetch coordinates
         if (data !== "UNAUTHORIZED") {
             GEO_LOCATION_API = data;
