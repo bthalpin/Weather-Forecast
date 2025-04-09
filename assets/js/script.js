@@ -209,7 +209,7 @@ function cleanUpLocation(location) {
    
 }
 
-function getAPIKey(url, location) {
+function getAPIKey(location) {
     
     // Fetch api key
     fetch('https://charity-raffle.herokuapp.com/api/weather-key')
@@ -229,9 +229,9 @@ function getAPIKey(url, location) {
 function selectCoordinateURL(location) {
     // If numbers entered
     if (['0','1','2','3','4','5','6','7','8','9'].includes(location[0])){
-        getAPIKey(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${GEO_LOCATION_API}`,location)
+        getCoords(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${GEO_LOCATION_API}`, location)
     } else {
-        getAPIKey(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${GEO_LOCATION_API}`,location)
+        getCoords(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${GEO_LOCATION_API}`, location)
     }
 }
 
