@@ -113,6 +113,11 @@ function currentWeather(data, location){
 function getFutureWeather() {
     fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${GEO_LOCATION_API}&units=imperial`).then(res => res.json()).then(data => {
 
+
+        if (futureWeatherEl.children){
+            futureWeatherEl.empty()
+        }
+        
         const futureWeatherTitle = $('<h2>').text('5 Day Forecast:')
         futureWeatherTitle.attr('style','background: linear-gradient(to top,rgb(39, 72, 178),rgb(85, 124, 252));padding:1rem;color:white;margin:0;border-radius:0.3rem;')
         futureWeatherEl.append(futureWeatherTitle)
@@ -158,10 +163,6 @@ function getFutureWeather() {
 function updateData(data,location){
     if (currentWeatherEl.children){
         currentWeatherEl.empty()
-    }
-
-    if (futureWeatherEl.children){
-        futureWeatherEl.empty()
     }
 
     currentWeather(data, location)
@@ -215,7 +216,6 @@ function getAPIKey(location) {
     fetch('https://charity-raffle.herokuapp.com/api/weather-key')
     .then(res => res.json())
     .then(data => {
-        console.log(data, 'GETTING API KEY, new')
         // If valid key, fetch coordinates
         if (data !== "UNAUTHORIZED") {
             GEO_LOCATION_API = data;
