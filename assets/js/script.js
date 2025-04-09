@@ -201,20 +201,15 @@ function cleanUpLocation(location) {
         location = location.trim()
     }
 
-    // If numbers entered
-    if (['0','1','2','3','4','5','6','7','8','9'].includes(location[0])){
-        getAPIKey(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${GEO_LOCATION_API}`,location)
+    if (GEO_LOCATION_API) {
+        selectCoordinateURL(location)
     } else {
-        getAPIKey(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${GEO_LOCATION_API}`,location)
+        getAPIKey(location)
     }
+   
 }
 
 function getAPIKey(url, location) {
-
-    if (GEO_LOCATION_API) {
-        console.log('ALREADY HAVE KEY')
-        return getCoords(url, location)
-    }
     
     // Fetch api key
     fetch('https://charity-raffle.herokuapp.com/api/weather-key')
@@ -225,10 +220,19 @@ function getAPIKey(url, location) {
         if (data !== "UNAUTHORIZED") {
             GEO_LOCATION_API = data;
 
-            getCoords(url, location)
+            selectCoordinateURL(location)
         }
     })
     .catch(err => console.log(err))
+}
+
+function selectCoordinateURL(location) {
+    // If numbers entered
+    if (['0','1','2','3','4','5','6','7','8','9'].includes(location[0])){
+        getAPIKey(`https://api.openweathermap.org/geo/1.0/zip?zip=${location}&appid=${GEO_LOCATION_API}`,location)
+    } else {
+        getAPIKey(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${1}&appid=${GEO_LOCATION_API}`,location)
+    }
 }
 
 function getCoords(url, location){
